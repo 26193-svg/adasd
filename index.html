@@ -1,0 +1,717 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>AI 진로 두 갈래</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* Layout concept: a job-description style spec sheet. Two route tiles open the page, then each path is a ruled list of label and content rows. Path A and path B each own one hue. */
+:root {
+  --bg: #F4F6F9;
+  --surface: #FFFFFF;
+  --ink: #12171F;
+  --ink-2: #4B5565;
+  --line: #D9DEE6;
+  --plan: #B3225F;
+  --plan-soft: #FBE7F0;
+  --dev: #2547D0;
+  --dev-soft: #E6ECFD;
+  --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1218;
+    --surface: #161C25;
+    --ink: #E9EDF3;
+    --ink-2: #A2ADBD;
+    --line: #2A3340;
+    --plan: #F58AB3;
+    --plan-soft: #341626;
+    --dev: #8FA6FF;
+    --dev-soft: #161F45;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1218;
+  --surface: #161C25;
+  --ink: #E9EDF3;
+  --ink-2: #A2ADBD;
+  --line: #2A3340;
+  --plan: #F58AB3;
+  --plan-soft: #341626;
+  --dev: #8FA6FF;
+  --dev-soft: #161F45;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.75;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  padding-block: 0 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1040px; margin-inline: auto; }
+a { color: inherit; }
+a:focus-visible, input:focus-visible {
+  outline: 2px solid var(--accent, var(--ink));
+  outline-offset: 3px;
+}
+.plan { --accent: var(--plan); --accent-soft: var(--plan-soft); }
+.dev { --accent: var(--dev); --accent-soft: var(--dev-soft); }
+.both { --accent: var(--ink); }
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Hero */
+.hero { padding-block: clamp(28px, 6vw, 64px) clamp(28px, 5vw, 48px); }
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+  margin: 0 0 clamp(20px, 4vw, 40px);
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-2);
+  font-size: 0.875rem;
+}
+h1 {
+  margin: 0 0 20px;
+  max-width: 16em;
+  font-size: clamp(2rem, 5.6vw, 3.5rem);
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  text-wrap: balance;
+}
+.lead { margin: 0 0 32px; max-width: 38em; font-size: 1.125rem; color: var(--ink-2); }
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 16px;
+}
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 24px;
+  background: var(--accent-soft);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.tile .label { color: var(--accent); }
+.tile h2 { margin: 0; font-size: 1.6rem; line-height: 1.3; letter-spacing: -0.01em; }
+.tile p { margin: 0; }
+.tile .go { margin-top: auto; padding-top: 8px; font-weight: 600; color: var(--accent); }
+.tile:hover .go { text-decoration: underline; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 4px 0 0; padding: 0; }
+.chips li {
+  padding: 1px 10px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+/* Sections */
+section { padding-block: clamp(32px, 5vw, 56px); border-top: 1px solid var(--line); }
+.sec-head { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
+.sec-head .label { color: var(--accent, var(--ink-2)); }
+.sec-head h2 {
+  margin: 0;
+  font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+.sec-head p { margin: 0; max-width: 42em; color: var(--ink-2); }
+
+.principles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.principles li { min-width: 0; padding-top: 14px; border-top: 2px solid var(--ink); }
+.principles h3 { margin: 0 0 6px; font-size: 1.1rem; line-height: 1.4; }
+.principles p { margin: 0; color: var(--ink-2); }
+
+/* Spec sheet */
+.sheet { margin: 0; border-top: 2px solid var(--ink); }
+.sheet .row {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: 8px 32px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+.sheet dt { font-weight: 600; font-size: 0.9rem; color: var(--accent); }
+.sheet dd { margin: 0; min-width: 0; }
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding-left: 1.1em;
+}
+.list li::marker { color: var(--accent); }
+ol.list { padding-left: 1.4em; }
+.sub { margin: 0 0 6px; font-weight: 600; }
+.group + .group { margin-top: 18px; }
+.tools { display: grid; gap: 12px; list-style: none; margin: 0; padding: 0; }
+.tools li { display: grid; grid-template-columns: minmax(7rem, 9rem) minmax(0, 1fr); gap: 2px 16px; }
+.tools .name { font-family: var(--font-mono); font-size: 0.9rem; font-weight: 500; }
+.tool-note { margin: 14px 0 0; color: var(--ink-2); font-size: 0.95rem; }
+.note {
+  margin: 0;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.ref {
+  margin-left: 1px;
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  vertical-align: super;
+  line-height: 1;
+  text-decoration: none;
+  color: var(--accent, var(--ink-2));
+}
+.ref:hover { text-decoration: underline; }
+
+/* Compare */
+.table-wrap {
+  overflow-x: auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+table { width: 100%; min-width: 660px; border-collapse: collapse; }
+th, td { padding: 12px 16px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+thead th { font-size: 0.95rem; color: var(--accent); background: var(--bg); }
+tbody th { width: 9rem; font-weight: 600; }
+.fit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 28px;
+  margin-top: 36px;
+}
+.fit > div { min-width: 0; }
+.fit h3 { margin: 0 0 4px; font-size: 1.05rem; color: var(--accent); }
+.fit .hint { margin: 0 0 10px; color: var(--ink-2); font-size: 0.875rem; }
+
+/* Flow */
+.flow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 24px 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.flow li { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding-top: 12px; border-top: 2px solid var(--accent); }
+.flow .step { font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-2); }
+.flow .who { font-size: 0.8rem; font-weight: 600; color: var(--accent); }
+.flow h3 { margin: 0; font-size: 1.05rem; line-height: 1.4; }
+.flow p { margin: 0; color: var(--ink-2); font-size: 0.95rem; }
+.after-flow { max-width: 44em; margin: 32px 0 0; }
+.after-flow + .after-flow { margin-top: 12px; }
+
+/* Checklist */
+.checks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 28px 24px;
+}
+.check-group { min-width: 0; }
+.check-group h3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  color: var(--accent);
+}
+.count { font-family: var(--font-mono); font-size: 0.8rem; }
+.bar { height: 3px; margin-bottom: 6px; background: var(--line); }
+.bar i { display: block; width: 0; height: 100%; background: var(--accent); }
+@media (prefers-reduced-motion: no-preference) {
+  .bar i { transition: width 0.25s ease; }
+}
+.check-group label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+.check-group input { flex: none; width: 18px; height: 18px; margin: 5px 0 0; accent-color: var(--accent); }
+.saved-note { margin: 20px 0 0; color: var(--ink-2); font-size: 0.875rem; }
+
+/* Sources */
+.sources {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding-left: 1.6em;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+.foot-note { max-width: 44em; margin: 20px 0 0; color: var(--ink-2); font-size: 0.9rem; }
+
+@media (max-width: 640px) {
+  .sheet .row { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+}
+@media (max-width: 520px) {
+  .tools li { grid-template-columns: minmax(0, 1fr); }
+  .tile { padding: 20px; }
+}
+</style>
+
+<div class="wrap">
+
+  <header class="hero">
+    <p class="meta"><span>진로 탐색 노트</span><span>2026년 10월 기준</span></p>
+    <h1>AI로 서비스를 기획하는 길과 AI로 웹을 만드는 길</h1>
+    <p class="lead">두 진로 모두 AI를 매일 쓰는 직업입니다. 기획은 무엇을 만들지 정하고 결과의 품질을 판단합니다. 개발은 그것을 실제로 동작하는 웹 서비스로 만듭니다. 이 페이지는 두 길이 하는 일, 필요한 역량, 도구, 준비 방법을 한곳에 모았습니다.</p>
+
+    <div class="tiles">
+      <a class="tile plan" href="#plan">
+        <p class="label">Path A</p>
+        <h2>AI 서비스 기획</h2>
+        <p>사용자의 문제를 찾고, AI로 풀 방법을 설계하고, AI 응답이 쓸 만한지 평가해서 개선합니다.</p>
+        <ul class="chips"><li>문서화</li><li>데이터 해석</li><li>UX 설계</li><li>협업</li></ul>
+        <span class="go">기획 자세히 보기 →</span>
+      </a>
+      <a class="tile dev" href="#dev">
+        <p class="label">Path B</p>
+        <h2>AI 툴 웹개발</h2>
+        <p>AI 코딩 도구로 화면과 서버를 빠르게 만들고, 코드를 직접 읽고 검증해서 서비스로 배포합니다.</p>
+        <ul class="chips"><li>코드 리뷰</li><li>디버깅</li><li>배포</li><li>Git</li></ul>
+        <span class="go">개발 자세히 보기 →</span>
+      </a>
+    </div>
+  </header>
+
+  <section id="base">
+    <div class="sec-head">
+      <p class="label">Shared ground</p>
+      <h2>두 길이 같이 쓰는 기본기</h2>
+    </div>
+    <ul class="principles">
+      <li>
+        <h3>AI 결과를 검증하는 습관</h3>
+        <p>AI는 그럴듯한 오답도 냅니다. 기획자는 응답의 정확성과 맥락을, 개발자는 코드의 동작과 보안을 직접 확인합니다.</p>
+      </li>
+      <li>
+        <h3>문제를 구체적으로 설명하는 글쓰기</h3>
+        <p>원하는 것을 정확히 적을수록 AI의 결과가 좋아집니다. 기획서와 프롬프트는 같은 글쓰기 능력에서 나옵니다.</p>
+      </li>
+      <li>
+        <h3>계속 바꿔 가는 학습</h3>
+        <p>도구가 빠르게 바뀌어서 한 번 익힌 사용법이 오래가지 않습니다. 새 도구를 실제 작업에 넣어 보는 습관이 필요합니다.<a class="ref" href="#src-2">[2]</a></p>
+      </li>
+    </ul>
+  </section>
+
+  <section id="plan" class="plan">
+    <div class="sec-head">
+      <p class="label">Path A</p>
+      <h2>AI 서비스 기획</h2>
+      <p>서비스기획자, 프로덕트 매니저(PM), AI 서비스 기획자 같은 이름으로 채용됩니다. 고객의 요구를 분석하고 AI 기술로 사용자 경험을 높이는 방법을 찾아 팀과 함께 구현하는 일입니다.<a class="ref" href="#src-3">[3]</a></p>
+    </div>
+
+    <dl class="sheet">
+      <div class="row">
+        <dt>하는 일</dt>
+        <dd>
+          <ul class="list">
+            <li>사용자가 겪는 문제를 찾고, AI로 푸는 것이 맞는지 판단합니다. 규칙 기반 기능이 더 나은 경우도 있습니다.</li>
+            <li>요구사항을 PRD(제품 요구사항 문서)와 와이어프레임으로 정리해 개발팀과 디자인팀에 전달합니다.</li>
+            <li>AI 서비스의 테스트 시나리오와 테스트 케이스를 관리하고, 실제 사용자처럼 써 봅니다.<a class="ref" href="#src-1">[1]</a></li>
+            <li>AI 응답이 자연스러운지, 정확한지, 알맞은 시점에 나오는지 평가하고 개선점을 정리합니다.<a class="ref" href="#src-1">[1]</a></li>
+            <li>사용률과 만족도 같은 지표로 성과를 확인하고, 개인정보와 윤리 이슈를 점검합니다.<a class="ref" href="#src-9">[9]</a></li>
+          </ul>
+        </dd>
+      </div>
+      <div class="row">
+        <dt>필요 역량</dt>
+        <dd>
+          <div class="group">
+            <p class="sub">기술 이해</p>
+            <ul class="list">
+              <li>AI와 LLM이 어떻게 동작하고 어디에서 틀리는지 아는 것. 모델을 직접 만들 필요는 없습니다.<a class="ref" href="#src-2">[2]</a></li>
+              <li>데이터를 읽고 의미를 뽑는 능력. 스프레드시트와 SQL 기초면 시작할 수 있습니다.</li>
+            </ul>
+          </div>
+          <div class="group">
+            <p class="sub">설계와 소통</p>
+            <ul class="list">
+              <li>AI와 사용자 경험(UX)을 함께 설계하는 능력.<a class="ref" href="#src-2">[2]</a></li>
+              <li>기획 의도를 글로 분명하게 쓰는 문서화.</li>
+              <li>AI 개발자, 데이터 담당자, 디자이너와 협업하며 기술과 사업 목표를 연결하는 소통.<a class="ref" href="#src-2">[2]</a></li>
+            </ul>
+          </div>
+        </dd>
+      </div>
+      <div class="row">
+        <dt>자주 쓰는 도구</dt>
+        <dd>
+          <ul class="tools">
+            <li><span class="name">Claude, ChatGPT, Gemini</span><span>아이디어 정리, 문서 초안, 시나리오 생성, 프롬프트 실험</span></li>
+            <li><span class="name">Figma</span><span>화면 흐름과 와이어프레임</span></li>
+            <li><span class="name">Notion, 구글 문서</span><span>PRD와 회의 기록</span></li>
+            <li><span class="name">스프레드시트, SQL</span><span>평가표 작성과 로그 분석</span></li>
+            <li><span class="name">GA4 같은 분석 도구</span><span>사용자 행동 확인</span></li>
+          </ul>
+        </dd>
+      </div>
+      <div class="row">
+        <dt>포트폴리오 아이디어</dt>
+        <dd>
+          <ul class="list">
+            <li>자주 쓰는 앱 하나를 골라 AI 기능을 붙이는 기획서. 문제 정의, PRD, 화면 흐름, 성공 지표를 담습니다.</li>
+            <li>AI 응답 평가표. 테스트 케이스, 점수 기준, 발견한 문제, 개선안을 담습니다.</li>
+            <li>AI 도구로 만든 클릭 가능한 프로토타입과 사용자 테스트 결과.</li>
+          </ul>
+        </dd>
+      </div>
+      <div class="row">
+        <dt>채용에서 보는 것</dt>
+        <dd>
+          <p style="margin:0">AI 서비스 기획 인턴 공고를 분석한 글에서는 화려한 개발 실력보다 꼼꼼한 반복 검증, 문제의 원인을 따져 보는 습관, 사용자 관점의 판단을 중요하게 봅니다.<a class="ref" href="#src-1">[1]</a> 현업 팀장이 쓴 글에는 AI를 써 봤다는 경험보다 업무에 어떻게 녹여 쓰는지를 면접에서 묻는다는 내용이 있습니다.<a class="ref" href="#src-4">[4]</a></p>
+        </dd>
+      </div>
+      <div class="row">
+        <dt>주의할 점</dt>
+        <dd>
+          <p class="note">AI가 화면 초안과 문서까지 만들어 주기 때문에, 문서만 쓰는 신입은 대체되기 쉽다는 걱정이 취업 커뮤니티에 올라옵니다.<a class="ref" href="#src-5">[5]</a> AI 결과를 그대로 쓰지 않고 근거를 들어 고치는 힘, 한 업계를 깊이 아는 이해, 지표로 검증하는 습관이 차별점이 될 수 있습니다.</p>
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <section id="dev" class="dev">
+    <div class="sec-head">
+      <p class="label">Path B</p>
+      <h2>AI 툴 웹개발</h2>
+      <p>프론트엔드, 풀스택, 웹 개발자로 일합니다. AI 도구가 개발 속도를 높여 주지만 코드의 정확성과 책임은 개발자에게 남습니다.</p>
+    </div>
+
+    <dl class="sheet">
+      <div class="row">
+        <dt>하는 일</dt>
+        <dd>
+          <ul class="list">
+            <li>HTML, CSS, JavaScript(TypeScript)와 React, Next.js 같은 프레임워크로 화면과 기능을 만듭니다.</li>
+            <li>서버, 데이터베이스, 로그인을 연결합니다. Supabase 같은 서비스로 백엔드를 빠르게 구성하기도 합니다.</li>
+            <li>AI 코딩 도구에 작업을 설명하고, 나온 코드를 읽고 고칩니다.</li>
+            <li>버그 원인 찾기, 리팩터링, 테스트 코드 작성을 AI와 함께 진행합니다.</li>
+            <li>서비스에 AI 기능을 붙입니다. AI 모델을 서버와 API로 연결해 결과를 화면에 보여 주는 방식입니다.<a class="ref" href="#src-9">[9]</a></li>
+            <li>서비스를 배포하고 오류를 확인합니다.</li>
+          </ul>
+        </dd>
+      </div>
+      <div class="row">
+        <dt>필요 역량</dt>
+        <dd>
+          <div class="group">
+            <p class="sub">기본기</p>
+            <ul class="list">
+              <li>HTML, CSS, JavaScript와 반응형 화면 구성.</li>
+              <li>Git과 GitHub로 작업 기록 남기기.</li>
+              <li>코드를 읽고 틀린 곳을 찾는 능력. AI가 준 결과를 판단하려면 꼭 필요합니다.</li>
+            </ul>
+          </div>
+          <div class="group">
+            <p class="sub">서비스 이해</p>
+            <ul class="list">
+              <li>서버, 데이터베이스, API의 기초.</li>
+              <li>보안 기본기. API 키 보관과 입력값 검증이 대표적입니다.</li>
+              <li>테스트와 배포 과정.</li>
+            </ul>
+          </div>
+          <div class="group">
+            <p class="sub">AI 활용</p>
+            <ul class="list">
+              <li>작업을 작게 나누고, 필요한 맥락을 전달하고, 결과를 검증하는 방법. 도구를 제대로 쓰지 못하면 시간만 쓰고 기술 부채가 늘 수 있다는 지적이 있습니다.<a class="ref" href="#src-8">[8]</a></li>
+            </ul>
+          </div>
+        </dd>
+      </div>
+      <div class="row">
+        <dt>자주 비교되는 도구</dt>
+        <dd>
+          <ul class="tools">
+            <li><span class="name">Cursor</span><span>VS Code를 기반으로 만든 AI 에디터. 코드를 보면서 바로 제안을 받아 적용하는 일상 코딩에 맞습니다.<a class="ref" href="#src-6">[6]</a><a class="ref" href="#src-7">[7]</a></span></li>
+            <li><span class="name">Claude Code</span><span>터미널에서 프로젝트 단위 작업을 맡기는 에이전트. 여러 파일에 걸친 수정과 분석에 쓰입니다.<a class="ref" href="#src-6">[6]</a></span></li>
+            <li><span class="name">GitHub Copilot</span><span>쓰던 편집기에 붙이는 확장. 회사 보안 정책과 GitHub 연동이 중요한 환경에서 많이 씁니다.<a class="ref" href="#src-6">[6]</a></span></li>
+            <li><span class="name">Windsurf</span><span>무료 티어로 에이전트 기능을 먼저 써 볼 수 있습니다.<a class="ref" href="#src-7">[7]</a></span></li>
+          </ul>
+          <p class="tool-note">에디터형 도구와 터미널 에이전트를 함께 쓰는 개발자가 많다는 비교 글이 있습니다.<a class="ref" href="#src-7">[7]</a> 요금제와 기능은 자주 바뀌므로 각 공식 사이트에서 확인하세요.</p>
+        </dd>
+      </div>
+      <div class="row">
+        <dt>AI와 일하는 한 사이클</dt>
+        <dd>
+          <ol class="list">
+            <li>만들 기능을 작게 나눠 글로 설명합니다.</li>
+            <li>AI가 코드를 생성합니다.</li>
+            <li>코드를 읽고 직접 실행해 확인합니다.</li>
+            <li>테스트를 돌리고 틀린 부분을 고칩니다.</li>
+            <li>커밋하고 배포합니다.</li>
+          </ol>
+        </dd>
+      </div>
+      <div class="row">
+        <dt>포트폴리오 아이디어</dt>
+        <dd>
+          <ul class="list">
+            <li>배포 링크가 있는 웹 서비스 2~3개. 그중 하나는 로그인과 데이터베이스를 포함합니다.</li>
+            <li>LLM API를 붙인 기능 하나. 요약이나 추천이 시작하기 좋습니다.</li>
+            <li>README에 AI에게 맡긴 부분과 직접 설계하고 검증한 부분을 나눠 적고, 커밋 기록을 꾸준히 남깁니다.</li>
+          </ul>
+        </dd>
+      </div>
+      <div class="row">
+        <dt>주의할 점</dt>
+        <dd>
+          <p class="note">AI가 만든 코드를 이해하지 못한 채 쓰면 오류를 고치지 못하고, 보안 문제를 놓치기 쉽고, 기술 부채만 쌓일 수 있습니다.<a class="ref" href="#src-8">[8]</a> 코드를 읽는 기본기를 먼저 쌓은 뒤 AI 도구로 속도를 올리는 순서가 안전합니다.</p>
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <section id="compare">
+    <div class="sec-head">
+      <p class="label">Side by side</p>
+      <h2>한눈에 비교</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col" class="both">항목</th>
+            <th scope="col" class="plan">AI 서비스 기획</th>
+            <th scope="col" class="dev">AI 툴 웹개발</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">핵심 질문</th>
+            <td>무엇을, 왜, 누구를 위해 만들까?</td>
+            <td>어떻게 안정적으로 동작하게 만들까?</td>
+          </tr>
+          <tr>
+            <th scope="row">대표 결과물</th>
+            <td>PRD, 화면 흐름, AI 응답 평가표</td>
+            <td>배포된 웹 서비스, 코드, 테스트</td>
+          </tr>
+          <tr>
+            <th scope="row">AI를 쓰는 곳</th>
+            <td>문제 정리, 문서 초안, 시나리오 생성, 응답 평가</td>
+            <td>코드 생성, 디버깅, 리팩터링, 테스트 작성</td>
+          </tr>
+          <tr>
+            <th scope="row">사람이 책임지는 것</th>
+            <td>문제 정의, 우선순위, 품질 기준</td>
+            <td>코드의 정확성, 보안, 배포</td>
+          </tr>
+          <tr>
+            <th scope="row">먼저 필요한 기초</th>
+            <td>문서 작성, 데이터 읽기, UX 감각</td>
+            <td>프로그래밍 기본기, Git</td>
+          </tr>
+          <tr>
+            <th scope="row">첫 과제</th>
+            <td>쓰는 앱 하나에 AI 기능 기획서 쓰기</td>
+            <td>간단한 웹 서비스 하나 배포하기</td>
+          </tr>
+          <tr>
+            <th scope="row">취업 때 보여줄 것</th>
+            <td>기획서, 평가표, 프로토타입</td>
+            <td>배포 링크, GitHub 기록, README</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="fit">
+      <div class="plan">
+        <h3>이런 일이 즐겁다면 기획</h3>
+        <p class="hint">일반적인 경향이며 정답은 아닙니다.</p>
+        <ul class="list">
+          <li>사람들이 불편해하는 지점을 찾아내는 일</li>
+          <li>생각을 문서와 도표로 정리하는 일</li>
+          <li>숫자로 결과를 확인하고 다음 개선을 정하는 일</li>
+          <li>여러 직군의 의견을 조율하는 일</li>
+        </ul>
+      </div>
+      <div class="dev">
+        <h3>이런 일이 즐겁다면 개발</h3>
+        <p class="hint">일반적인 경향이며 정답은 아닙니다.</p>
+        <ul class="list">
+          <li>직접 만든 것이 화면에서 동작하는 순간</li>
+          <li>오류의 원인을 끝까지 추적하는 일</li>
+          <li>새 도구와 기술을 파고들어 써 보는 일</li>
+          <li>혼자 집중해서 문제를 푸는 일</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="together">
+    <div class="sec-head">
+      <p class="label">Same team</p>
+      <h2>두 길이 만나는 곳</h2>
+      <p>AI 서비스를 만드는 팀에서는 기획자와 개발자가 같은 제품을 번갈아 다룹니다. 한 번의 개선은 보통 이런 순서로 돌아갑니다.</p>
+    </div>
+    <ol class="flow">
+      <li class="plan">
+        <span class="step">1</span>
+        <span class="who">기획</span>
+        <h3>문제와 요구사항 정리</h3>
+        <p>PRD와 화면 흐름을 만들고 성공 지표를 정합니다.</p>
+      </li>
+      <li class="dev">
+        <span class="step">2</span>
+        <span class="who">개발</span>
+        <h3>AI 도구로 구현</h3>
+        <p>기능을 만들고 코드를 검토해 테스트할 수 있는 버전을 냅니다.</p>
+      </li>
+      <li class="plan">
+        <span class="step">3</span>
+        <span class="who">기획</span>
+        <h3>시나리오로 품질 평가</h3>
+        <p>실제 사용자처럼 써 보고 AI 응답을 평가표로 점수화합니다.</p>
+      </li>
+      <li class="both">
+        <span class="step">4</span>
+        <span class="who">함께</span>
+        <h3>개선, 배포, 지표 확인</h3>
+        <p>발견한 문제를 고치고 배포한 뒤 지표를 같이 봅니다.</p>
+      </li>
+    </ol>
+    <p class="after-flow">AI 기획자는 기술 이해와 커뮤니케이션이 함께 강조되는 직무로 설명됩니다.<a class="ref" href="#src-3">[3]</a> 그래서 기획을 하면서 AI 도구로 간단한 프로토타입을 직접 만들어 보는 길도 선택지가 됩니다. 반대로 개발자가 기획 문서를 읽고 사용자 관점에서 판단할 수 있으면 팀에서 더 쓸모가 큽니다. 두 길 중 하나를 정한 뒤에도 상대 직군의 기초를 조금씩 익혀 두면 좋습니다.</p>
+  </section>
+
+  <section id="start">
+    <div class="sec-head">
+      <p class="label">Getting started</p>
+      <h2>시작 체크리스트</h2>
+      <p>하나씩 끝낼 때마다 체크하세요. 체크 상태는 이 브라우저에 저장됩니다.</p>
+    </div>
+    <div class="checks">
+      <div class="check-group plan">
+        <h3>기획 <span class="count" id="count-a">0 / 5</span></h3>
+        <div class="bar"><i id="fill-a"></i></div>
+        <label for="chk-a1"><input type="checkbox" id="chk-a1" data-group="a"><span>쓰는 앱 하나에 AI 기능을 붙이는 기획서 쓰기</span></label>
+        <label for="chk-a2"><input type="checkbox" id="chk-a2" data-group="a"><span>같은 질문을 바꿔 가며 AI 답을 비교하는 프롬프트 실험 일지 쓰기</span></label>
+        <label for="chk-a3"><input type="checkbox" id="chk-a3" data-group="a"><span>테스트 케이스와 평가 기준표 만들기</span></label>
+        <label for="chk-a4"><input type="checkbox" id="chk-a4" data-group="a"><span>Figma로 화면 흐름 그려 보기</span></label>
+        <label for="chk-a5"><input type="checkbox" id="chk-a5" data-group="a"><span>스프레드시트로 간단한 지표 분석하기</span></label>
+      </div>
+      <div class="check-group dev">
+        <h3>개발 <span class="count" id="count-b">0 / 5</span></h3>
+        <div class="bar"><i id="fill-b"></i></div>
+        <label for="chk-b1"><input type="checkbox" id="chk-b1" data-group="b"><span>HTML, CSS, JavaScript로 페이지 하나 만들어 배포하기</span></label>
+        <label for="chk-b2"><input type="checkbox" id="chk-b2" data-group="b"><span>Git과 GitHub에 커밋 기록 남기기</span></label>
+        <label for="chk-b3"><input type="checkbox" id="chk-b3" data-group="b"><span>AI 코딩 도구 하나를 정해 작은 기능 만들기</span></label>
+        <label for="chk-b4"><input type="checkbox" id="chk-b4" data-group="b"><span>AI가 만든 코드를 읽고 한 곳 이상 직접 고쳐 보기</span></label>
+        <label for="chk-b5"><input type="checkbox" id="chk-b5" data-group="b"><span>로그인이나 데이터베이스가 있는 서비스 하나 배포하기</span></label>
+      </div>
+      <div class="check-group both">
+        <h3>공통 <span class="count" id="count-c">0 / 3</span></h3>
+        <div class="bar"><i id="fill-c"></i></div>
+        <label for="chk-c1"><input type="checkbox" id="chk-c1" data-group="c"><span>AI가 틀린 답을 낸 사례 3개를 모아 원인 적기</span></label>
+        <label for="chk-c2"><input type="checkbox" id="chk-c2" data-group="c"><span>한 달에 새 AI 도구 하나를 써 보고 메모하기</span></label>
+        <label for="chk-c3"><input type="checkbox" id="chk-c3" data-group="c"><span>관심 업계의 AI 서비스 3개를 분석하기. 어떤 문제를 풀고 어디가 부족한지 적습니다.</span></label>
+      </div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <div class="sec-head">
+      <p class="label">Sources</p>
+      <h2>참고한 자료</h2>
+    </div>
+    <ol class="sources">
+      <li id="src-1"><a href="https://brunch.co.kr/@sungsiri/71" target="_blank" rel="noopener noreferrer">[공고 분석] 카카오뱅크 AI 서비스 기획 어시스턴트</a> (브런치)</li>
+      <li id="src-2"><a href="https://www.inflearn.com/blogs/8313" target="_blank" rel="noopener noreferrer">AI 시대 '서비스 기획자'는 어떤 형태로 진화할까?</a> (인프런 블로그)</li>
+      <li id="src-3"><a href="https://yozm.wishket.com/magazine/questions/share/AJZgig7sgqzMGgJE" target="_blank" rel="noopener noreferrer">AI기획자 직무 설명</a> (요즘IT 물어봐)</li>
+      <li id="src-4"><a href="https://brunch.co.kr/@wavv/100" target="_blank" rel="noopener noreferrer">요즘 기획자는 AI를 어떻게 쓰는지 봅니다</a> (브런치)</li>
+      <li id="src-5"><a href="https://community.linkareer.com/community/6006436" target="_blank" rel="noopener noreferrer">AI 시대에 서비스기획자 취준은 어떻게 준비해야 할까요?</a> (링커리어 커뮤니티)</li>
+      <li id="src-6"><a href="https://braindetox.kr/posts/ai_coding_tools_2026_comparison.html" target="_blank" rel="noopener noreferrer">AI 코딩 도구 2026 비교 - Claude Code, Cursor, Copilot</a></li>
+      <li id="src-7"><a href="https://braindetox.kr/posts/best_ai_coding_assistant_2026.html" target="_blank" rel="noopener noreferrer">2026 최고의 AI 코딩 어시스턴트 비교</a></li>
+      <li id="src-8"><a href="https://www.youngju.dev/blog/culture/2026-03-16-ai-coding-tools-developer-productivity-2026" target="_blank" rel="noopener noreferrer">AI 코딩 도구가 바꾸는 개발자 생산성 2026</a></li>
+      <li id="src-9"><a href="https://www.inflearn.com/course/next-level-기획자ai-서비스" target="_blank" rel="noopener noreferrer">Next Level 기획자, AI 서비스 기획의 기술</a> (인프런 강의 소개)</li>
+    </ol>
+    <p class="foot-note">일부는 개인 블로그와 커뮤니티 글이라 회사와 직무에 따라 다를 수 있습니다. 도구와 채용 요건은 빠르게 바뀌므로 지원할 회사의 최신 공고를 함께 확인하세요.</p>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  var KEY = 'ai-career-checklist-v1';
+  var boxes = [].slice.call(document.querySelectorAll('.checks input[type=checkbox]'));
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+  boxes.forEach(function (b) { if (saved[b.id]) b.checked = true; });
+
+  function update() {
+    var groups = {};
+    boxes.forEach(function (b) {
+      var g = b.getAttribute('data-group');
+      if (!groups[g]) groups[g] = { total: 0, done: 0 };
+      groups[g].total++;
+      if (b.checked) groups[g].done++;
+    });
+    Object.keys(groups).forEach(function (g) {
+      var c = document.getElementById('count-' + g);
+      var f = document.getElementById('fill-' + g);
+      if (c) c.textContent = groups[g].done + ' / ' + groups[g].total;
+      if (f) f.style.width = (groups[g].done / groups[g].total * 100) + '%';
+    });
+  }
+  function save() {
+    var s = {};
+    boxes.forEach(function (b) { if (b.checked) s[b.id] = 1; });
+    try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {}
+  }
+  boxes.forEach(function (b) {
+    b.addEventListener('change', function () { update(); save(); });
+  });
+  update();
+})();
+</script>
+
+</body></html>
